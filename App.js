@@ -1,8 +1,11 @@
+// Libraries
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import PlaidAuthenticator from 'react-native-plaid-link';
 
+// Files
 import './global';
+import { getUserAccounts, getPlaidAccessToken } from './adapter/api';
 
 const Web3 = require('web3');
 
@@ -13,18 +16,25 @@ const web3 = new Web3(
 export default class App extends Component {
   state = {
     data: {},
+    accounts: [],
+    access_token: null,
     status: 'LOGIN_BUTTON'
   };
 
   render() {
     console.log(this.state.status)
-    web3.eth.getBlock('latest').then(console.log);
+    // web3.eth.getBlock('latest').then(console.log);
 
     switch(this.state.status) {
       case 'CONNECTED':
         console.log('connected')
         return this.renderDetails()
       case 'LOGIN_BUTTON':
+        return this.renderButton();
+      case 'GET_ACC':
+        getPlaidAccessToken(this.state.data.metadata.public_token)
+        .then(res => this.status.access_token = res.access_token)
+        return this.renderAcc();
       case 'EXIT':
         return this.renderButton();
       default:
@@ -58,7 +68,7 @@ export default class App extends Component {
     return (
       <PlaidAuthenticator
         onMessage={this.onMessage}
-        publicKey="eecc6d6382543dbee6478afbc5879b"
+        publicKey="cbc3786c0826ebad66f33cecc745dc"
         env="sandbox"
         product="auth,transactions"
         onLoad={this.onLoad}
@@ -83,11 +93,23 @@ export default class App extends Component {
         <Text style={styles.value}>
           {this.state.data.metadata.public_token}
         </Text>
+        <TouchableOpacity onPress={() => this.setState({status: "GET_ACC"})}>
+          <Text style={styles.paragraph}>GET ACCOUNTS</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 
+  renderAcc() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.paragraph}>Here's your Accounts:</Text>
+      </View>
+    )
+  }
+
   onMessage = data => {
+    console.log(data)
     this.setState({ data, status: data.action.substr(data.action.lastIndexOf(':') + 1).toUpperCase() });
   };
 }
