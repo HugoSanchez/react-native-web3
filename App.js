@@ -17,7 +17,7 @@ export default class App extends Component {
   state = {
     data: {},
     accounts: [],
-    access_token: 'null',
+    access_token: null,
     status: 'LOGIN_BUTTON'
   };
 
@@ -27,8 +27,10 @@ export default class App extends Component {
 
     switch(this.state.status) {
       case 'CONNECTED':
-        getPlaidAccessToken(this.state.data.metadata.public_token)
-          .then(res => console.log('INSIDE RES: ', res.access_token))
+        if (!this.state.access_token) {
+          getPlaidAccessToken(this.state.data.metadata.public_token)
+          .then(res => this.setState({ access_token: res.access_token}))
+        }
         return this.renderDetails()
       case 'LOGIN_BUTTON':
         return this.renderButton();
