@@ -17,6 +17,7 @@ export default class App extends Component {
   state = {
     data: {},
     accounts: [],
+    total_balance: null,
     access_token: null,
     status: 'LOGIN_BUTTON'
   };
@@ -29,13 +30,16 @@ export default class App extends Component {
       case 'CONNECTED':
         if (!this.state.access_token) {
           getPlaidAccessToken(this.state.data.metadata.public_token)
-          .then(res => this.setState({ access_token: res.access_token}))
+          .then(res => this.setState({access_token: res.access_token}))
         }
         return this.renderDetails()
       case 'LOGIN_BUTTON':
         return this.renderButton();
       case 'GET_ACC':
-        getUserAccounts(this.state.access_token)
+        if (this.state.accounts.length == 0) {
+          getUserAccounts(this.state.access_token)
+            .then(res => this.setState({accounts: res.accounts, total_balance: res.total_balance}))
+        }
         return this.renderAcc();
       case 'EXIT':
         return this.renderButton();
@@ -95,7 +99,7 @@ export default class App extends Component {
         <Text style={styles.value}>
           {this.state.data.metadata.public_token}
         </Text>
-        <TouchableOpacity onPress={() => console.log('READING STATE AT:', this.state.access_token)}>
+        <TouchableOpacity onPress={() => this.setState({status: 'GET_ACC'})}>
           <Text style={styles.paragraph}>GET ACCOUNTS</Text>
         </TouchableOpacity>
       </View>
@@ -105,7 +109,8 @@ export default class App extends Component {
   renderAcc() {
     return (
       <View style={styles.container}>
-        <Text style={styles.paragraph}>Here's your Accounts:</Text>
+      <Text style={styles.value}> Total Balance:</Text>
+        <Text style={styles.paragraph}>${this.state.total_balance}</Text>
       </View>
     )
   }

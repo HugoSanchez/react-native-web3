@@ -19,7 +19,7 @@ const getUserAccounts = (ACCESS_TOKEN) => {
       Authorization: ACCESS_TOKEN,
     }
   }).then(res => res.json())
-    .then(res => console.log(res))
+    // .then(res => console.log(res))
 }
 
 const getPlaidAccessToken = (PUBLIC_TOKEN) => {
