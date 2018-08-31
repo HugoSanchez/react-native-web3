@@ -17,7 +17,7 @@ export default class App extends Component {
   state = {
     data: {},
     accounts: [],
-    access_token: null,
+    access_token: 'null',
     status: 'LOGIN_BUTTON'
   };
 
@@ -27,13 +27,13 @@ export default class App extends Component {
 
     switch(this.state.status) {
       case 'CONNECTED':
-        console.log('connected')
+        getPlaidAccessToken(this.state.data.metadata.public_token)
+          .then(res => console.log('INSIDE RES: ', res.access_token))
         return this.renderDetails()
       case 'LOGIN_BUTTON':
         return this.renderButton();
       case 'GET_ACC':
-        getPlaidAccessToken(this.state.data.metadata.public_token)
-        .then(res => this.status.access_token = res.access_token)
+        getUserAccounts(this.state.access_token)
         return this.renderAcc();
       case 'EXIT':
         return this.renderButton();
@@ -93,7 +93,7 @@ export default class App extends Component {
         <Text style={styles.value}>
           {this.state.data.metadata.public_token}
         </Text>
-        <TouchableOpacity onPress={() => this.setState({status: "GET_ACC"})}>
+        <TouchableOpacity onPress={() => console.log('READING STATE AT:', this.state.access_token)}>
           <Text style={styles.paragraph}>GET ACCOUNTS</Text>
         </TouchableOpacity>
       </View>
