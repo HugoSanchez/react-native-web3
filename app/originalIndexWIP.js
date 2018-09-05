@@ -122,25 +122,5 @@ class App extends Component {
   };
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 24,
-    backgroundColor: '#ecf0f1'
-  },
-  paragraph: {
-    fontSize: 18,
-    marginBottom: 5,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#34495e'
-  },
-  value: {
-    marginBottom: 20,
-    textAlign: 'center'
-  }
-});
 
 export default App;

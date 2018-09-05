@@ -22,7 +22,7 @@ export default class Signin extends React.Component{
         AsyncStorage.setItem('user_token', res.token)
         navigation.navigate("SignedIn")
       } else {
-        console.log('Problem')
+        this.setState({ error: 'Unable to set user_token' })
       }
     });
   }

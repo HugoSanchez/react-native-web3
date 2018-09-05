@@ -1,10 +1,16 @@
 //Packages
 import React from 'react';
 import { Text } from 'react-native';
+const Web3 = require('web3');
 
 //Files
+import '../global';
 import { createRootNavigator } from './router';
 import { isSignedIn } from './auth';
+
+const web3 = new Web3(
+  new Web3.providers.HttpProvider('https://mainnet.infura.io/'),
+);
 
 export default class App extends React.Component {
   constructor(props) {
@@ -14,7 +20,10 @@ export default class App extends React.Component {
       signedIn: false,
       checkedSignIn: false,
       isSignedInToPlaid: false,
-      bananarama: 'Bananarama'
+      total_balance: null,
+      accounts: [],
+      access_token: null,
+      username: ''
     };
   }
 
@@ -22,6 +31,8 @@ export default class App extends React.Component {
     isSignedIn()
       .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
       .catch(err => alert('An error ocurred'))
+      // Web3.js TEST
+      web3.eth.getBlock('latest').then(console.log);
   }
 
   render(){
@@ -31,23 +42,23 @@ export default class App extends React.Component {
       return null;
     }
 
+    console.log(createRootNavigator)
     const Layout = createRootNavigator(signedIn, isSignedInToPlaid);
     return <Layout
               screenProps={{
-                bananarama: this.state.bananarama,
-                handleChange: this.handleChange
+                username: this.state.username,
+                handleSignUp: this.handleSignUp
               }}/>;
   }
 
   // Handling state Methods
 
-  // handleChange = (name, value) => {
-  //   this.setState({
-  //     session: {
-  //       ...this.state.session,
-  //       [name]: value
-  //     }
-  //   });
-  // }
+  handlePlaidSingUp = () => {
+    this.setState({ isSignedInToPlaid: !this.state.isSignedInToPlaid });
+  }
+
+  handleSingUp = (username) => {
+    this.setState({ username: username });
+  }
 
 }//
