@@ -5,8 +5,8 @@ import PlaidAuthenticator from 'react-native-plaid-link';
 
 // Files
 import '../../global';
-import { getUserAccounts, getPlaidAccessToken } from '../adapter/plaid_api';
-import { handlePlaidAuthenticaton } from '../auth';
+import { getPlaidAccessToken } from '../adapter/plaid_api';
+import { handlePlaidAuthentication } from '../auth';
 import styles from '../../styles';
 
 class PlaidLogin extends Component {
@@ -16,13 +16,19 @@ class PlaidLogin extends Component {
     status: 'LOGIN_BUTTON'
   };
 
-  render() {
-    console.log(this.state.status)
+  componentDidMount(){
+    console.log('MOUNTING')
+  }
 
+  render() {
+    // console.log(this.state.status)
+    const { navigation } = this.props
     switch(this.state.status) {
       case 'CONNECTED':
-        handlePlaidAuthenticaton(this.state.data.metadata.public_token)
-        return this.renderDetails()
+        handlePlaidAuthentication(this.state.data.metadata.public_token)
+          .then(res => {
+            this.props.screenProps.handlePlaidSignUp(res)
+          }).then(() => navigation.navigate("Home"))
       case 'LOGIN_BUTTON':
         return this.renderButton();
       case 'EXIT':
@@ -35,24 +41,41 @@ class PlaidLogin extends Component {
   renderButton = () => {
     return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => this.setState({status: ''})}>
+      <Text style={styles.paragraph}>Hi @{this.props.screenProps.username}</Text>
+      <Text> </Text>
+      <Text style={styles.value}> You haven't connected your Bank account yet. </Text>
+      <Text style={styles.value}> Please do so here: </Text>
+      <Text> </Text>
+      <TouchableOpacity onPress={() => this.setState({ status: '' })}>
         <Text style={styles.paragraph}>Login with Plaid</Text>
       </TouchableOpacity>
+      <Text> </Text>
+      <Text> </Text>
+      <Text> </Text>
+      <Text style={styles.value}>
+      Note: We do not access, store or share
+      any of your personal information.
+      Everything you need to access
+      that information is stored on your device
+      and only you have control over it.
+      </Text>
+      <Text style={styles.value}>
+      Your money, your rules.
+      </Text>
     </View>
     )
   }
 
-  onLoadStart = props => {
-    console.log('onLoadStart', props);
-  };
-
-  onLoad = props => {
-    console.log('onLoad', props);
-  };
-
-  onLoadEnd = props => {
-    console.log('onLoadEnd', props);
-  };
+  renderLogin() {
+    return (
+      <PlaidAuthenticator
+        onMessage={this.onMessage}
+        publicKey="cbc3786c0826ebad66f33cecc745dc"
+        env="sandbox"
+        product="auth,transactions"
+      />
+    );
+  }
 
   renderLogin() {
     return (
@@ -66,37 +89,6 @@ class PlaidLogin extends Component {
         onLoadEnd={this.onLoadEnd}
       />
     );
-  }
-
-  renderDetails() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.paragraph}>Institution</Text>
-        <Text style={styles.value}>
-          {this.state.data.metadata.institution.name}
-        </Text>
-        <Text style={styles.paragraph}>Institution ID</Text>
-        <Text style={styles.value}>
-          {this.state.data.metadata.institution.institution_id}
-        </Text>
-        <Text style={styles.paragraph}>Token</Text>
-        <Text style={styles.value}>
-          {this.state.data.metadata.public_token}
-        </Text>
-        <TouchableOpacity onPress={() => this.setState({status: 'GET_ACC'})}>
-          <Text style={styles.paragraph}>GET ACCOUNTS</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-  renderAcc() {
-    return (
-      <View style={styles.container}>
-      <Text style={styles.value}> Total Balance:</Text>
-        <Text style={styles.paragraph}>${this.state.total_balance}</Text>
-      </View>
-    )
   }
 
   onMessage = data => {

@@ -19,8 +19,7 @@ export default class Signin extends React.Component{
       password: this.state.password
     }).then(res => {
       if (res.success){
-        AsyncStorage.setItem('user_token', res.token)
-        navigation.navigate("SignedIn")
+        this.props.screenProps.handleSignUp(this.state.username, res.token, navigation)
       } else {
         this.setState({ error: 'Unable to set user_token' })
       }

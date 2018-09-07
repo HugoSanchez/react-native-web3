@@ -1,9 +1,9 @@
 import React from "react";
-import { View } from "react-native";
+import { View, AsyncStorage } from "react-native";
 import { Card, Button, Text } from "react-native-elements";
-import { onSignOut } from "../auth";
+import { onSignOut, deletePlaidToken } from "../auth";
 
-export default ({ navigation }) => (
+export default ({ navigation, screenProps }) => (
   <View style={{ paddingVertical: 20 }}>
     <Card title="John Doe">
       <View
@@ -21,9 +21,23 @@ export default ({ navigation }) => (
         <Text style={{ color: "white", fontSize: 28 }}>JD</Text>
       </View>
       <Button
+        backgroundColor="#03A654"
+        title="DELETE ACCOUNT"
+        onPress={() => deletePlaidToken().then(() => {
+          console.log('Delete T Button')
+          AsyncStorage.getItem('plaid_token')
+            .then(res => {
+              screenProps.handlePlaidSignUp(!!res)
+            })
+        })}
+      />
+      <Text></Text>
+      <Button
         backgroundColor="#03A9F4"
         title="SIGN OUT"
-        onPress={() => onSignOut().then(() => navigation.navigate("SignedOut"))}
+        onPress={() => onSignOut().then(() => {
+          screenProps.handleLogout(navigation)
+        })}
       />
     </Card>
   </View>

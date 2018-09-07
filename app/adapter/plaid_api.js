@@ -23,19 +23,21 @@ const getUserAccounts = (ACCESS_TOKEN) => {
   }).then(res => res.json());
 }
 
-// const getUserTransactions = (ACCESS_TOKEN) => {
-//   console.log(ACCESS_TOKEN)
-//   return fetch(`${baseUrl}/set_user_access_token`, {
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({ access_token: ACCESS_TOKEN })
-//   }).then(res => res.json())
-//     .then(res => console.log(res))
-// }
-//
+const getUserTransactions = (ACCESS_TOKEN) => {
+  console.log('Hit That!!')
+  return fetch(`${baseUrl}/transactions`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: ACCESS_TOKEN,
+    },
+    method: 'POST',
+    body: JSON.stringify({ access_token: ACCESS_TOKEN })
+  }).then(res => res.json())
+}
+
 
 export {
   getPlaidAccessToken,
+  getUserTransactions,
   getUserAccounts
 }

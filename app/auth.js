@@ -16,6 +16,7 @@ export const onSignIn = (user) => {
 
 export const onSignOut = () => AsyncStorage.removeItem('user_token');
 
+
 export const isSignedIn = () => {
   return new Promise((resolve, reject) => {
     AsyncStorage.getItem('user_token')
@@ -34,14 +35,37 @@ export const isSignedIn = () => {
 
 // Plaid API Authentication Controllers
 //--> Need to add additional encryption HERE <--
-export const handlePlaidAuthenticaton = (public_token) => {
+export const handlePlaidAuthentication = (public_token) => {
   return getPlaidAccessToken(public_token)
     .then(res => {
       if (res.access_token){
-        AsyncStorage.setItem('plaid_token', res.access_token)
+        return AsyncStorage.setItem('plaid_token', res.access_token)
+          .then(() => hasBankAccountLinked().then(res => {
+            console.log('Inside Auth', res)
+            return res
+          }))
       } else {
-        this.setState({ error: 'Unable to set user_token' })
+        console.log('Unable to save Access Token after Fetch')
+        return false
       }
     }
   )
 }
+
+export const hasBankAccountLinked = () => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getItem('plaid_token')
+      .then(res => {
+        if(res !== null) {
+          console.log(res)
+          resolve(true);
+        }
+        else {
+          resolve(false);
+        }
+      })
+      .catch(err => reject(err));
+  });
+};
+
+export const deletePlaidToken = () => AsyncStorage.removeItem('plaid_token');
