@@ -23,33 +23,15 @@ export default class App extends React.Component {
       isSignedInToPlaid: false,
       total_balance: null,
       accounts: [],
+      transactions: [],
       username: ''
     };
   }
 
   componentDidMount(){
     console.log('NEWLY MOUNTED COMPONENT')
-    //Check if he's signed IN
-    isSignedIn()
-      .then(res => {
-        this.setState({ signedIn: res, checkedSignIn: true })
-        return hasBankAccountLinked()
-      }).then(res => {
-        if (res) {
-          AsyncStorage.getItem('plaid_token')
-            .then(res => {
-            getUserAccounts(res)
-            .then(res => {
-              this.setState({
-                ...this.state,
-                isSignedInToPlaid: true,
-                total_balance: res.total_balance,
-                accounts: res.accounts
-              })
-            })
-          return res }).then(res => getUserTransactions(res).then(res => console.log(res)))
-        }}
-      ).catch(err => alert('An error ocurred'))
+    //Set INITIAL STATE
+    this.setMainState()
     // Web3.js test
       // web3.eth.getBlock('latest').then(console.log);
   }
@@ -71,7 +53,8 @@ export default class App extends React.Component {
                 handleLogout: this.handleLogout,
                 handlePlaidSignUp: this.handlePlaidSignUp,
                 setAccountsBalance: this.setAccountsBalance,
-                isSignedInToPlaid: isSignedInToPlaid
+                isSignedInToPlaid: this.state.isSignedInToPlaid,
+                setMainState: this.setMainState
               }}/>;
   }
 
@@ -101,5 +84,37 @@ export default class App extends React.Component {
   setAccountsBalance = (response) => {
     this.setState({ accounts: response.accounts, total_balance: response.total_balance })
   }
+
+  setTransactions = (res) => {
+    this.setState({ transactions: res.transactions})
+  }
+
+  setMainState = () => {
+    isSignedIn()
+      .then(this.updateSignInAndCheckPlaidToken)
+        .then(res => { if (res) { AsyncStorage.getItem('plaid_token')
+          .then(plaidToken => { getUserAccounts(plaidToken)
+            .then(this.setStateBalanceAndAccounts)
+          return plaidToken }).then(plaidToken => getUserTransactions(plaidToken)
+              .then(this.setTransactions))
+        }}
+      ).catch(err => alert('An error ocurred'))
+  }
+
+  // Helper Methods
+  updateSignInAndCheckPlaidToken = (res) => {
+    this.setState({ signedIn: res, checkedSignIn: true })
+    return hasBankAccountLinked()
+  }
+
+  setStateBalanceAndAccounts = (res) => {
+    this.setState({
+      ...this.state,
+      isSignedInToPlaid: true,
+      total_balance: res.total_balance,
+      accounts: res.accounts
+    })
+  }
+
 
 }//

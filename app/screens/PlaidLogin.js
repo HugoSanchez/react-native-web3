@@ -28,6 +28,7 @@ class PlaidLogin extends Component {
         handlePlaidAuthentication(this.state.data.metadata.public_token)
           .then(res => {
             this.props.screenProps.handlePlaidSignUp(res)
+            this.props.screenProps.setMainState()
           }).then(() => navigation.navigate("Home"))
       case 'LOGIN_BUTTON':
         return this.renderButton();
