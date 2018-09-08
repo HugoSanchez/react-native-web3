@@ -10,23 +10,19 @@ import { FontAwesome } from "react-native-vector-icons";
 import SignUp from "./screens/Signup";
 import SignIn from "./screens/Signin";
 import Home from "./screens/Home";
-import Beef from "./screens/Beef";
+import HomeSplit from "./screens/HomeSplit";
 import Profile from "./screens/Profile";
 import PlaidLogin from "./screens/PlaidLogin";
+import WelcomeScreen from "./screens/WelcomeScreen";
 
 const headerStyle = {
   marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
 };
 
 export const SignedOut = createStackNavigator({
-  SignUp: {
-    screen: SignUp,
-    navigationOptions: {
-      header:null
-    }
-  },
-  SignIn: {
-    screen: SignIn,
+
+  SignedOut: {
+    screen: WelcomeScreen,
     navigationOptions: {
       header:null
     }
@@ -36,7 +32,7 @@ export const SignedOut = createStackNavigator({
 export const SignedIn =  createBottomTabNavigator(
     {
       Home: {
-        screen: Beef,
+        screen: HomeSplit,
         navigationOptions: {
           tabBarLabel: "Home",
           tabBarIcon: ({ tintColor }) => (

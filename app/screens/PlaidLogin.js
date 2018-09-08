@@ -96,7 +96,7 @@ class PlaidLogin extends Component {
     console.log(data)
     this.setState({ data, status: data.action.substr(data.action.lastIndexOf(':') + 1).toUpperCase() });
   };
-}
+} //
 
 
 export default PlaidLogin;

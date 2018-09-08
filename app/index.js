@@ -54,7 +54,8 @@ export default class App extends React.Component {
                 handlePlaidSignUp: this.handlePlaidSignUp,
                 setAccountsBalance: this.setAccountsBalance,
                 isSignedInToPlaid: this.state.isSignedInToPlaid,
-                setMainState: this.setMainState
+                setMainState: this.setMainState,
+                dummyFunction: this.dummyFunction
               }}/>;
   }
 
@@ -114,6 +115,10 @@ export default class App extends React.Component {
       total_balance: res.total_balance,
       accounts: res.accounts
     })
+  }
+
+  dummyFunction = () => {
+    console.log('DUMMY')
   }
 
 

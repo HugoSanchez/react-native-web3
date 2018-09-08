@@ -19,7 +19,8 @@ export default class Signin extends React.Component{
       password: this.state.password
     }).then(res => {
       if (res.success){
-        this.props.screenProps.handleSignUp(this.state.username, res.token, navigation)
+        this.props.screenProps.dummyFunction()
+        // this.props.screenProps.handleSignUp(this.state.username, res.token, navigation)
       } else {
         this.setState({ error: 'Unable to set user_token' })
       }
