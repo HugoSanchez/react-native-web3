@@ -6544,6 +6544,13 @@ react-native-scripts@1.14.0:
     rimraf "^2.6.1"
     xdl "48.1.4"
 
+react-native-simple-card-view@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-simple-card-view/-/react-native-simple-card-view-0.3.0.tgz#4591d8f8ed9b6b37ab16d0fc281becd658697ba4"
+  dependencies:
+    prop-types "^15.6.0"
+    react-native-vector-icons "^4.5.0"
+
 react-native-svg@6.2.2:
   version "6.2.2"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-6.2.2.tgz#5803cddce374a542b4468c38a2474fca32080685"
@@ -6567,6 +6574,14 @@ react-native-tab-view@^1.0.0:
 react-native-vector-icons@4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.5.0.tgz#6b95619e64f62f05f579f74a01fe5640df95158b"
+  dependencies:
+    lodash "^4.0.0"
+    prop-types "^15.5.10"
+    yargs "^8.0.2"
+
+react-native-vector-icons@^4.5.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.6.0.tgz#e4014311ffa6de397d914ffc31b7097a874cc8d5"
   dependencies:
     lodash "^4.0.0"
     prop-types "^15.5.10"

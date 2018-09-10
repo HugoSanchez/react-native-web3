@@ -61,7 +61,7 @@ class PlaidLogin extends Component {
       that information is stored on your device
       and only you have control over it.
       </Text>
-      <Text style={styles.paragraph}>
+      <Text style={styles.paragraph2}>
       YOUR MONEY, YOUR RULES.
       </Text>
     </View>

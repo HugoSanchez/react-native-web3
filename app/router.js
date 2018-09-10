@@ -14,6 +14,8 @@ import HomeSplit from "./screens/HomeSplit";
 import Profile from "./screens/Profile";
 import PlaidLogin from "./screens/PlaidLogin";
 import WelcomeScreen from "./screens/WelcomeScreen";
+import TransactionList from "./screens/TransactionList";
+import CustomHeader from './components/customHeader';
 
 const headerStyle = {
   marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
@@ -37,6 +39,15 @@ export const SignedIn =  createBottomTabNavigator(
           tabBarLabel: "Home",
           tabBarIcon: ({ tintColor }) => (
             <FontAwesome name="home" size={30} color={tintColor} />
+          )
+        }
+      },
+      Transactions: {
+        screen: TransactionList,
+        navigationOptions: {
+          tabBarLabel: "Txs",
+          tabBarIcon: ({ tintColor }) => (
+            <FontAwesome name="user" size={30} color={tintColor} />
           )
         }
       },

@@ -1,6 +1,6 @@
 //Packages
 import React from 'react';
-import { Text, AsyncStorage } from 'react-native';
+import { Text, AsyncStorage, YellowBox } from 'react-native';
 const Web3 = require('web3');
 
 //Files
@@ -12,6 +12,11 @@ import { isSignedIn, hasBankAccountLinked } from './auth';
 const web3 = new Web3(
   new Web3.providers.HttpProvider('https://mainnet.infura.io/'),
 );
+
+YellowBox.ignoreWarnings([
+  "Warning: isMounted(...) is deprecated",
+  "Module RCTImageLoader"
+]);
 
 export default class App extends React.Component {
   constructor(props) {

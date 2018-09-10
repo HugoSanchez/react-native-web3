@@ -1,17 +1,22 @@
 //Packages
 import React from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
+import { View, Text, Image, AsyncStorage, YellowBox } from 'react-native';
 const Web3 = require('web3');
-const currency = require('currency.js')
 
 //Files
 import '../../global';
 import styles from '../../styles';
-import { getEthPrice } from '../adapter/eth_api';
+import HomeRow from '../components/homeItem'
+import { getEthPrice, getBitcoinAddressBalance, getBtcPrice } from '../adapter/crypto_api';
 
 const web3 = new Web3(
   new Web3.providers.HttpProvider('https://mainnet.infura.io/'),
 );
+
+YellowBox.ignoreWarnings([
+  "Warning: isMounted(...) is deprecated",
+  "Module RCTImageLoader"
+]);
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -24,6 +29,7 @@ export default class Home extends React.Component {
       FoodAndDrinksExpenses: 0,
       travelAndTransportExpenses: 0,
       ETHbalance: 0,
+      BTCbalance: 0,
     };
   }
 
@@ -32,24 +38,37 @@ export default class Home extends React.Component {
     this.FoodAndDrinksExpenses(this.props.screenProps.transactions)
     this.travelAndTransportExpenses(this.props.screenProps.transactions)
     this.setEthereumBalance()
+    this.setBitcoinBalance()
     // console.log(this.props.screenProps.transactions)
   }
 
   render(){
     return(
       <View style={styles.container}>
-        <Text style={styles.value}> Total Savings </Text>
-        <Text style={styles.paragraph}> $ {this.parseAmounts(this.props.screenProps.total_balance)} </Text>
-        <Text style={styles.value}> ETH Balance: </Text>
-        <Text style={styles.paragraph}> $ {this.parseAmounts(this.state.ETHbalance)} </Text>
-        <Text style={styles.value}> Total monthly expenditures: </Text>
-        <Text style={styles.paragraph}> $ {this.state.totalMonthlyExpenditure} </Text>
-        <Text style={styles.value}> Total monthly Income: </Text>
-        <Text style={styles.paragraph}> $ {this.state.totalMonthlyIncome} </Text>
-        <Text style={styles.value}> Food and Drinks: </Text>
-        <Text style={styles.paragraph}> $ {this.parseAmounts(this.state.FoodAndDrinksExpenses)} </Text>
-        <Text style={styles.value}> Travel: </Text>
-        <Text style={styles.paragraph}> $ {this.parseAmounts(this.state.travelAndTransportExpenses)} </Text>
+        <View style={styles.container, styles.boxOne}>
+          <Text style={styles.value}> Total Savings </Text>
+          <Text style={styles.savingsHeader}> $ {this.parseAmounts(this.props.screenProps.total_balance)} </Text>
+        </View>
+        <View style={styles.container, styles.boxTwo}>
+          <Text style={styles.paragraph}> $ {this.state.BTCbalance} <Text style={styles.crypto}>BTC</Text></Text>
+          <Text style={styles.paragraph}> $ {this.parseAmounts(this.state.ETHbalance)} <Text style={styles.crypto}>ETH</Text></Text>
+        </View>
+        <View style={styles.container, styles.boxThree}>
+          <Text style={styles.paragraph}> $ {this.state.totalMonthlyExpenditure} </Text>
+          <Text style={styles.value2}>Monthly Expenses </Text>
+        </View>
+        <View style={styles.container, styles.boxFour}>
+          <Text style={styles.paragraph}> $ {this.state.totalMonthlyIncome} </Text>
+          <Text style={styles.value2}>Monthly Income </Text>
+        </View>
+        <View style={styles.container, styles.boxFive}>
+          <Text style={styles.paragraph}> $ {this.parseAmounts(this.state.FoodAndDrinksExpenses)} </Text>
+          <Text style={styles.value2}> Food and Drinks </Text>
+        </View>
+        <View style={styles.container, styles.boxSix}>
+          <Text style={styles.paragraph}> $ {this.parseAmounts(this.state.travelAndTransportExpenses)} </Text>
+          <Text style={styles.value2}> Travel </Text>
+        </View>
       </View>
     )
   }
@@ -104,6 +123,20 @@ export default class Home extends React.Component {
         this.setState({ ETHbalance: currentExRate * balance })
       })
     });
+  }
+
+  setBitcoinBalance = () => {
+    var bitcoinBalance
+    var currentExRate
+    address = '18vPrXytWtRhSrNDmuJMKREY9mS9kUsqLk'
+    getBitcoinAddressBalance(address).then(res => {
+      bitcoinBalance = res.final_balance/(10**8) + 1
+      console.log('BTCBALANCE: ', bitcoinBalance)
+    }).then(() => getBtcPrice().then(res => {
+      currentExRate = res.USD
+      bitcoinBalance = bitcoinBalance * currentExRate
+      this.setState({ BTCbalance: this.parseAmounts(bitcoinBalance)})
+    }))
   }
 
   // Helper Methods
