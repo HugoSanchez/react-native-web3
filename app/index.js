@@ -29,7 +29,6 @@ export default class App extends React.Component {
   }
 
   componentDidMount(){
-    console.log('NEWLY MOUNTED COMPONENT')
     //Set INITIAL STATE
     this.setMainState()
     // Web3.js test
@@ -49,6 +48,7 @@ export default class App extends React.Component {
                 username: this.state.username,
                 total_balance: this.state.total_balance,
                 accounts: this.state.accounts,
+                transactions: this.state.transactions,
                 handleSignUp: this.handleSignUp,
                 handleLogout: this.handleLogout,
                 handlePlaidSignUp: this.handlePlaidSignUp,
@@ -57,10 +57,6 @@ export default class App extends React.Component {
                 setMainState: this.setMainState,
                 dummyFunction: this.dummyFunction
               }}/>;
-  }
-
-  componentWillUnmount() {
-    console.log('UNMOUNTED AS FUCK')
   }
 
   // Handling state Methods

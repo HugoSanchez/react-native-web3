@@ -27,7 +27,7 @@ export default styles = StyleSheet.create({
     padding: 10
   },
   title: {
-    fontSize: 40,
+    fontSize: 36,
     margin: 10,
     textAlign: 'center'
   },
@@ -41,12 +41,35 @@ export default styles = StyleSheet.create({
   paragraph: {
     fontSize: 18,
     marginBottom: 5,
+    marginLeft: 30,
+    marginRight: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#00002D'
+  },
+  paragraph2: {
+    fontSize: 18,
+    marginBottom: 5,
+    marginLeft: 30,
+    marginRight: 30,
+    textAlign: 'center',
+    color: '#00002D'
+  },
+  plaidConnect: {
+    fontSize: 18,
+    marginBottom: 5,
+    marginLeft: 30,
+    marginRight: 30,
+    textDecorationLine: 'underline',
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#34495e'
   },
   value: {
     marginBottom: 20,
-    textAlign: 'center'
+    marginLeft: 30,
+    marginRight: 30,
+    textAlign: 'center',
+    fontSize: 18,
   }
 });

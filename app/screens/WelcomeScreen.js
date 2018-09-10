@@ -5,8 +5,8 @@ import { Card, Button, FormLabel, FormInput } from "react-native-elements";
 
 // Files
 import { onSignIn, onSignUp } from "../auth";
-import Signup from './Signup';
-import Signin from './Signin';
+// import Signup from './Signup';
+// import Signin from './Signin';
 
 
 
@@ -28,6 +28,8 @@ export default class WelcomeScreen extends React.Component {
       case 'SIGN UP':
         return this.renderSignup();
       case 'SIGN IN':
+        return this.renderSignin();
+      case 'CONNECTED':
         return this.renderSignin();
       default:
         return this.renderWelcome();
@@ -85,10 +87,15 @@ export default class WelcomeScreen extends React.Component {
                        onChangeText={(text) => this.setState({ confirmPass: text })}
                     />
             <Button
-              buttonStyle={{ marginTop: 20, borderRadius: 0, borderWidth: 2, borderColor: '#fff' }}
+              buttonStyle={{ marginTop: 20, borderRadius: 30 }}
+              backgroundColor="#03A9F4"
+              title="SIGN UP"
+              onPress={() => { this.setState({ status: 'SIGN IN' }) }}
+            />
+            <Button
               backgroundColor="transparent"
               textStyle={{ color: "#fff" }}
-              title="SIGN IN"
+              title="Sign in"
               onPress={() => { this.setState({ status: 'SIGN IN' }) }}
             />
         </View>
@@ -100,7 +107,7 @@ export default class WelcomeScreen extends React.Component {
     return(
       <ImageBackground source={require("../resources/background.jpeg")}
                        style={styles.backgroundImage} >
-        <View style={{ paddingVertical: 20 }}>
+        <View style={{ paddingVertical: 120 }}>
             <FormLabel>Username</FormLabel>
             <FormInput placeholder="Username..."
                        value={this.state.username}
@@ -114,10 +121,16 @@ export default class WelcomeScreen extends React.Component {
                        onChangeText={(text) => this.setState({ password: text })}
                       />
             <Button
-              buttonStyle={{ marginTop: 20 }}
+              buttonStyle={{ marginTop: 20, borderRadius: 30 }}
               backgroundColor="#03A9F4"
               title="SIGN IN"
               onPress={() => { this.signIn() }}
+            />
+            <Button
+            backgroundColor="transparent"
+            textStyle={{ color: "#fff" }}
+            title="Sign up"
+            onPress={() => { this.setState({ status: 'SIGN UP' }) }}
             />
         </View>
       </ImageBackground>

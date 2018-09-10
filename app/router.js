@@ -1,3 +1,4 @@
+// Packages
 import React from "react";
 import { Platform, StatusBar } from "react-native";
 import {
@@ -7,8 +8,7 @@ import {
 } from "react-navigation";
 import { FontAwesome } from "react-native-vector-icons";
 
-import SignUp from "./screens/Signup";
-import SignIn from "./screens/Signin";
+//Files
 import Home from "./screens/Home";
 import HomeSplit from "./screens/HomeSplit";
 import Profile from "./screens/Profile";

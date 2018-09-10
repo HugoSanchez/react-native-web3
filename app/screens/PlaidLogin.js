@@ -30,6 +30,7 @@ class PlaidLogin extends Component {
             this.props.screenProps.handlePlaidSignUp(res)
             this.props.screenProps.setMainState()
           }).then(() => navigation.navigate("Home"))
+        return this.renderConnected();
       case 'LOGIN_BUTTON':
         return this.renderButton();
       case 'EXIT':
@@ -42,13 +43,13 @@ class PlaidLogin extends Component {
   renderButton = () => {
     return (
     <View style={styles.container}>
-      <Text style={styles.paragraph}>Hi @{this.props.screenProps.username}</Text>
+      <Text style={styles.title}>Hi {this.props.screenProps.username},</Text>
+      <Text style={styles.title}>Welcome to Korona</Text>
+      <Text></Text>
       <Text> </Text>
-      <Text style={styles.value}> You haven't connected your Bank account yet. </Text>
-      <Text style={styles.value}> Please do so here: </Text>
-      <Text> </Text>
+      <Text></Text>
       <TouchableOpacity onPress={() => this.setState({ status: '' })}>
-        <Text style={styles.paragraph}>Login with Plaid</Text>
+        <Text style={styles.plaidConnect}>START BY CONNECTING TO YOUR BANK</Text>
       </TouchableOpacity>
       <Text> </Text>
       <Text> </Text>
@@ -60,8 +61,8 @@ class PlaidLogin extends Component {
       that information is stored on your device
       and only you have control over it.
       </Text>
-      <Text style={styles.value}>
-      Your money, your rules.
+      <Text style={styles.paragraph}>
+      YOUR MONEY, YOUR RULES.
       </Text>
     </View>
     )
@@ -90,6 +91,12 @@ class PlaidLogin extends Component {
         onLoadEnd={this.onLoadEnd}
       />
     );
+  }
+
+  renderConnected() {
+    return(
+      <Text></Text>
+    )
   }
 
   onMessage = data => {
