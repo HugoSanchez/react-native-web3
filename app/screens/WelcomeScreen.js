@@ -108,6 +108,7 @@ export default class WelcomeScreen extends React.Component {
       <ImageBackground source={require("../resources/background.jpeg")}
                        style={styles.backgroundImage} >
         <View style={{ paddingVertical: 120 }}>
+        <Text> {this.state.error} </Text>
             <FormLabel>Username</FormLabel>
             <FormInput placeholder="Username..."
                        value={this.state.username}

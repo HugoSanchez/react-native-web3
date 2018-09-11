@@ -2,11 +2,13 @@
 import React from 'react';
 import { View, Text, Image, AsyncStorage, YellowBox } from 'react-native';
 const Web3 = require('web3');
+import { StackNavigator } from 'react-navigation';
 
 //Files
 import '../../global';
 import styles from '../../styles';
-import HomeRow from '../components/homeItem'
+import HomeRow from '../components/homeItem';
+import LogoTile from '../components/LogoTile';
 import { getEthPrice, getBitcoinAddressBalance, getBtcPrice } from '../adapter/crypto_api';
 
 const web3 = new Web3(
@@ -30,6 +32,7 @@ export default class Home extends React.Component {
       travelAndTransportExpenses: 0,
       ETHbalance: 0,
       BTCbalance: 0,
+      BTCtransactions: [],
     };
   }
 
@@ -127,15 +130,17 @@ export default class Home extends React.Component {
 
   setBitcoinBalance = () => {
     var bitcoinBalance
+    var BTCtransactions = []
     var currentExRate
     address = '18vPrXytWtRhSrNDmuJMKREY9mS9kUsqLk'
     getBitcoinAddressBalance(address).then(res => {
       bitcoinBalance = res.final_balance/(10**8) + 1
-      console.log('BTCBALANCE: ', bitcoinBalance)
+      console.log('BTC: ', res.txs.length)
     }).then(() => getBtcPrice().then(res => {
       currentExRate = res.USD
       bitcoinBalance = bitcoinBalance * currentExRate
-      this.setState({ BTCbalance: this.parseAmounts(bitcoinBalance)})
+      BTCtransactions = res.txs
+      this.setState({ BTCbalance: this.parseAmounts(bitcoinBalance), BTCtransactions: BTCtransactions})
     }))
   }
 

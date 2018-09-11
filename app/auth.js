@@ -14,6 +14,7 @@ export const onSignIn = (user) => {
   return signUserIn(user)
 }
 
+
 export const onSignOut = () => AsyncStorage.removeItem('user_token');
 
 

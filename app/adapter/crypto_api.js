@@ -1,3 +1,5 @@
+import baseUrl from './baseUrl'
+
 const ethPriceUrl = 'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR'
 const btcPriceUrl = 'https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD,EUR'
 
@@ -14,4 +16,8 @@ export const getBtcPrice = () => {
 
 export const getBitcoinAddressBalance = (address) => {
   return fetch(bitcoinBalance + address).then(res => res.json())
+}
+
+export const getNewEthId = () => {
+  return fetch(`${baseUrl}/getEthId`).then(res => res.json())
 }

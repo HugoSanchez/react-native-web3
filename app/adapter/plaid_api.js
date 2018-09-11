@@ -2,15 +2,16 @@ import baseUrl from './baseUrl'
 
 const getPlaidAccessToken = (PUBLIC_TOKEN) => {
   console.log('Hit That!')
+  console.log('Public TOKEN: ', PUBLIC_TOKEN)
+  console.log(`${baseUrl}/get_access_token`)
   return fetch(`${baseUrl}/get_access_token`,{
     headers: {
       'Content-Type': 'application/json',
-      Authorization: PUBLIC_TOKEN,
+       Authorization: PUBLIC_TOKEN,
     },
     method: 'POST',
     body: JSON.stringify({ public_token: PUBLIC_TOKEN })
   }).then(res => res.json())
-    // .then(res => console.log('ACCESS_TOKEN 1:', res.access_token))
 }
 
 const getUserAccounts = (ACCESS_TOKEN) => {
