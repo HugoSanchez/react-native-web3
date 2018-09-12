@@ -34,9 +34,11 @@ export default class Home extends React.Component {
       BTCbalance: 0,
       BTCtransactions: [],
     };
+    console.log("CONSTRUCTING HOME")
   }
 
   componentDidMount(){
+    console.log('HOME PROPS: ', this.props)
     this.setMonthlyExpenditureAndIncome(this.props.screenProps.transactions)
     this.FoodAndDrinksExpenses(this.props.screenProps.transactions)
     this.travelAndTransportExpenses(this.props.screenProps.transactions)

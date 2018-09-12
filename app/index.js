@@ -5,7 +5,7 @@ const Web3 = require('web3');
 
 //Files
 import '../global';
-import { createRootNavigator } from './router';
+import { createRootNavigator, SignedIn, SignedOut } from './router';
 import { getUserAccounts, getUserTransactions } from './adapter/plaid_api'
 import { isSignedIn, hasBankAccountLinked } from './auth';
 
@@ -40,6 +40,9 @@ export default class App extends React.Component {
       // web3.eth.getBlock('latest').then(console.log);
   }
 
+  // SignedIn = createRootNavigator(true);
+  // SignedOut = createRootNavigator(false)
+
   render(){
     const { checkedSignIn, signedIn, isSignedInToPlaid } = this.state;
 
@@ -47,21 +50,22 @@ export default class App extends React.Component {
       return null;
     }
 
-    const Layout = createRootNavigator(signedIn);
-    return <Layout
-              screenProps={{
-                username: this.state.username,
-                total_balance: this.state.total_balance,
-                accounts: this.state.accounts,
-                transactions: this.state.transactions,
-                handleSignUp: this.handleSignUp,
-                handleLogout: this.handleLogout,
-                handlePlaidSignUp: this.handlePlaidSignUp,
-                setAccountsBalance: this.setAccountsBalance,
-                isSignedInToPlaid: this.state.isSignedInToPlaid,
-                setMainState: this.setMainState,
-                dummyFunction: this.dummyFunction
-              }}/>;
+    const screenProps = {
+      username: this.state.username,
+      total_balance: this.state.total_balance,
+      accounts: this.state.accounts,
+      transactions: this.state.transactions,
+      handleSignUp: this.handleSignUp,
+      handleLogout: this.handleLogout,
+      handlePlaidSignUp: this.handlePlaidSignUp,
+      setAccountsBalance: this.setAccountsBalance,
+      isSignedInToPlaid: this.state.isSignedInToPlaid,
+      setMainState: this.setMainState,
+      dummyFunction: this.dummyFunction
+    }
+
+
+    return signedIn ? <SignedIn screenProps={screenProps}/> : <SignedOut screenProps={screenProps}/>;
   }
 
   // Handling state Methods

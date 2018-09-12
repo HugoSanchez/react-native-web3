@@ -88,6 +88,7 @@ export const SignedIn =  createBottomTabNavigator(
 
 
 export const createRootNavigator = (signedIn = false) => {
+  console.log("CREATINAVIGATOR")
   return createSwitchNavigator(
     {
       SignedIn: {
