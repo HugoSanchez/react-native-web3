@@ -147,7 +147,7 @@ export default class Home extends React.Component {
   // Helper Methods
 
   parseAmounts = (amount) => {
-    return (amount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+    return amount ? (amount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
   }
 
 }; //
