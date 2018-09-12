@@ -28,6 +28,7 @@ export default class EthereumScreen extends React.Component {
     sendToAddress: '0xcc74308838bbaceec226611a0c2b3fd5f4a7d8a2',
     amount: 0,
     gasPrice: {},
+    nonce: 0,
     error: '',
   }
 
@@ -49,6 +50,10 @@ export default class EthereumScreen extends React.Component {
         }
       })
     })
+    // web3.eth.getTransactionCount(this.state.mainEthAddress)
+    //   .then(res => {
+    //     this.setState({ nonce: res - 1 })
+    //   })
   }
 
   render(){
@@ -152,6 +157,7 @@ export default class EthereumScreen extends React.Component {
         <Text style={styles.value}> {this.state.mainEthAddress}</Text>
         <Text style={styles.crypto}>Your ETH Address</Text>
         <Text style={styles.crypto}>{this.state.gasPrice.low}</Text>
+        <Text style={styles.crypto}>{this.state.nonce}</Text>
         </View>
         <View style={styles.container, styles.boxTwo}>
           <Button
@@ -240,21 +246,34 @@ export default class EthereumScreen extends React.Component {
   }
 
   //Helper Methods
+  getNone = async (address) => {
+    web3.eth.getTransactionCount(web3.eth.defaultAccount)
+      .then(res => {
+        return res
+      })
+  }
 
   sendEthTransaction = () => {
-    const amountToSend = new BN(0.0100000)
+    const amountToSend = '0.0100000'
     var details = {}
     web3.eth.defaultAccount = this.state.mainEthAddress
+    var nonce = await getNone(web3.eth.defaultAccount)
     console.log(typeof this.state.sendToAddress)
     console.log(amountToSend)
-    details = {
-        "to": this.state.sendToAddress,
-        "value": web3.utils.toHex( web3.utils.toWei(amountToSend, 'ether') ),
-        "gas": 21000,
-        "gasPrice": this.state.gasPrice.low * 1000000000, // converts the gwei price to wei
-        "nonce": web3.eth.getTransactionCount(web3.eth.defaultAccount),
-        "chainId": 1 // EIP 155 chainId - mainnet: 1, rinkeby: 4
-      }
+
+    // web3.eth.getTransactionCount(web3.eth.defaultAccount)
+    //   .then(res => {
+    //     nonce = res
+    //     console.log(web3.utils.toHex(nonce))
+    //   })
+    // details = {
+    //     "to": web3.utils.toHex(this.state.sendToAddress),
+    //     "value": web3.utils.toHex( web3.utils.toWei(amountToSend, 'ether') ),
+    //     "gasLimit": web3.utils.toHex(21000),
+    //     "gasPrice": web3.utils.toHex(this.state.gasPrice.low * 1000000000), // converts the gwei price to wei
+    //     "nonce": web3.eth.getTransactionCount(web3.eth.defaultAccount),
+    //     "chainId": web3.utils.toHex(1) // EIP 155 chainId - mainnet: 1, rinkeby: 4
+    //   }
     const transaction = new EthereumTx(details)
     // console.log(transaction)
   }
