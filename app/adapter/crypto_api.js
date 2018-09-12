@@ -21,3 +21,8 @@ export const getBitcoinAddressBalance = (address) => {
 export const getNewEthId = () => {
   return fetch(`${baseUrl}/getEthId`).then(res => res.json())
 }
+
+export const getCurrentGasPrices = () => {
+  console.log('Hit GOS Prices!!')
+  return fetch('https://ethgasstation.info/json/ethgasAPI.json').then(res => res.json())
+}

@@ -44,7 +44,7 @@ export default class Home extends React.Component {
       this.travelAndTransportExpenses(this.props.screenProps.transactions)
       this.setEthereumBalance()
       this.setBitcoinBalance()
-    }, 1000)
+    }, 1500)
     // console.log(this.props.screenProps.transactions)
   }
 

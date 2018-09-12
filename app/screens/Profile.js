@@ -23,12 +23,9 @@ export default ({ navigation, screenProps }) => (
       <Button
         backgroundColor="#03A654"
         title="DELETE ACCOUNT"
-        onPress={() => deletePlaidToken().then(() => {
-          console.log('Delete T Button')
-          AsyncStorage.getItem('plaid_token')
-            .then(res => {
-              screenProps.handlePlaidSignUp(!!res)
-            })
+        onPress={() => deletePlaidToken().then(res => {
+          screenProps.handlePlaidSignUp(!!res)
+          navigation.navigate("Home")
         })}
       />
       <Text></Text>

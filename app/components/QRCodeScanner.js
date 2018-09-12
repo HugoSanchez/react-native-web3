@@ -35,6 +35,7 @@ export default class ScanScreen extends Component {
     if (result.data !== this.state.lastScannedUrl) {
       LayoutAnimation.spring();
       this.props.setSendToAddress(result.data)
+      console.log(result.data)
       this.props.handleBack('SEND')
       this.setState({ lastScannedUrl: result.data });
     }
@@ -125,7 +126,6 @@ const styles = StyleSheet.create({
   },
   bottomBar: {
     position: 'absolute',
-    textAlign: 'center',
     bottom: 0,
     left: 0,
     right: 0,
