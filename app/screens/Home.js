@@ -38,12 +38,13 @@ export default class Home extends React.Component {
   }
 
   componentDidMount(){
-    console.log('HOME PROPS: ', this.props)
-    this.setMonthlyExpenditureAndIncome(this.props.screenProps.transactions)
-    this.FoodAndDrinksExpenses(this.props.screenProps.transactions)
-    this.travelAndTransportExpenses(this.props.screenProps.transactions)
-    this.setEthereumBalance()
-    this.setBitcoinBalance()
+    setTimeout(() => {
+      this.setMonthlyExpenditureAndIncome(this.props.screenProps.transactions)
+      this.FoodAndDrinksExpenses(this.props.screenProps.transactions)
+      this.travelAndTransportExpenses(this.props.screenProps.transactions)
+      this.setEthereumBalance()
+      this.setBitcoinBalance()
+    }, 1000)
     // console.log(this.props.screenProps.transactions)
   }
 

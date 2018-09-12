@@ -25,7 +25,7 @@ const getUserAccounts = (ACCESS_TOKEN) => {
 }
 
 const getUserTransactions = (ACCESS_TOKEN) => {
-  console.log('Hit That!!')
+  console.log('Hit THAT!!')
   return fetch(`${baseUrl}/transactions`, {
     headers: {
       'Content-Type': 'application/json',

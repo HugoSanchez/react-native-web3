@@ -102,7 +102,7 @@ export default class App extends React.Component {
           .then(plaidToken => { getUserAccounts(plaidToken)
             .then(this.setStateBalanceAndAccounts)
           return plaidToken }).then(plaidToken => getUserTransactions(plaidToken)
-              .then(this.setTransactions))
+              .then(res => this.setTransactions(res)))
         }}
       ).catch(err => alert('An error ocurred'))
   }
