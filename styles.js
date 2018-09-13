@@ -19,7 +19,7 @@ export default styles = StyleSheet.create({
   },
   boxOne: {
     alignItems: 'center',
-    flex: 3,
+    flex: 2,
     width: '75%',
     marginTop: 50,
     borderBottomWidth: 0.1,
@@ -92,7 +92,7 @@ export default styles = StyleSheet.create({
     color: '#00002D'
   },
   paragraph: {
-    fontSize: 24,
+    fontSize: 18,
     marginLeft: 2,
     marginRight: 2,
     textAlign: 'center',

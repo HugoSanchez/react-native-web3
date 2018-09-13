@@ -51,6 +51,10 @@ export default class Home extends React.Component {
   render(){
     return(
       <View style={styles.container}>
+      <Image
+          source={require('../resources/bird.png')}
+          style={{ width: 120, height: 120, top: 100 }}
+        />
         <View style={styles.container, styles.boxOne}>
           <Text style={styles.value}> Total Savings </Text>
           <Text style={styles.savingsHeader}> $ {this.parseAmounts(this.props.screenProps.total_balance)} </Text>
@@ -59,10 +63,7 @@ export default class Home extends React.Component {
           <Text style={styles.paragraph}> $ {this.state.BTCbalance} <Text style={styles.crypto}>BTC</Text></Text>
           <Text style={styles.paragraph}> $ {this.parseAmounts(this.state.ETHbalance)} <Text style={styles.crypto}>ETH</Text></Text>
         </View>
-        <View style={styles.container, styles.boxThree}>
-          <Text style={styles.paragraph}> $ {this.state.totalMonthlyExpenditure} </Text>
-          <Text style={styles.value2}>Monthly Expenses </Text>
-        </View>
+        <HomeRow category={"Monthly Expenses"} amount={this.state.totalMonthlyExpenditure} onTrack={true} />
         <View style={styles.container, styles.boxFour}>
           <Text style={styles.paragraph}> $ {this.state.totalMonthlyIncome} </Text>
           <Text style={styles.value2}>Monthly Income </Text>

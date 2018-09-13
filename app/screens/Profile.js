@@ -5,7 +5,7 @@ import { onSignOut, deletePlaidToken } from "../auth";
 
 export default ({ navigation, screenProps }) => (
   <View style={{ paddingVertical: 20 }}>
-    <Card title="John Doe">
+    <Card title={"John Doe"}>
       <View
         style={{
           backgroundColor: "#bcbec1",
@@ -21,7 +21,7 @@ export default ({ navigation, screenProps }) => (
         <Text style={{ color: "white", fontSize: 28 }}>JD</Text>
       </View>
       <Button
-        backgroundColor="#03A654"
+        backgroundColor="#00006A"
         title="DELETE ACCOUNT"
         onPress={() => deletePlaidToken().then(res => {
           screenProps.handlePlaidSignUp(!!res)

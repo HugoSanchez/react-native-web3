@@ -26,7 +26,7 @@ export default class EthereumScreen extends React.Component {
     mainEthAddress: '',
     ETHbalance: 0,
     sendToAddress: '0xcc74308838bbaceec226611a0c2b3fd5f4a7d8a2',
-    amount: 0,
+    amount: '0',
     gasPrice: {},
     nonce: null,
     error: '',
@@ -146,30 +146,30 @@ export default class EthereumScreen extends React.Component {
   renderTxHome(){
     return(
       <View style={styles.container}>
-        <View style={styles.container, styles.ETHcontainer}>
-        <Image
-            source={require('../resources/eth.png')}
-            style={{ width: 50, height: 50 }}
-          />
+      <Image
+          source={require('../resources/eth.png')}
+          style={{ width: 70, height: 70, top: 100 }}
+        />
+        <View style={{ paddingVertical: 120 }}>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
         <Text style={styles.paragraph}> $ {this.parseAmounts(this.state.ETHbalance)} <Text style={styles.crypto}>ETH</Text></Text>
         <Text style={styles.value}> {this.state.mainEthAddress}</Text>
         <Text style={styles.crypto}>Your ETH Address</Text>
-        <Text style={styles.crypto}>{this.state.gasPrice.low}</Text>
-        <Text style={styles.crypto}>{this.state.nonce}</Text>
-        </View>
-        <View style={styles.container, styles.boxTwo}>
+        <Text></Text>
+        <Text></Text>
           <Button
-          buttonStyle={{ marginTop: 20, borderRadius: 0, borderWidth: 2, borderColor: '#00002D' }}
-          backgroundColor="#00002D"
+          buttonStyle={{ marginTop: 20, borderRadius: 30 }}
+          backgroundColor="#03A9F4"
           textStyle={{ color: "#fff" }}
-          title="Recive"
+          title="Receive"
           onPress={() => this.setState({ estature: 'RECEIVE' }) }
           />
           <Button
-          buttonStyle={{ marginTop: 20, borderRadius: 0, borderWidth: 2, borderColor: '#00002D' }}
           backgroundColor="transparent"
           textStyle={{ color: "#00002D" }}
-          title=" Send "
+          title="Send"
           onPress={() => this.setState({ estature: 'SEND'}) }
           />
         </View>
@@ -179,7 +179,7 @@ export default class EthereumScreen extends React.Component {
 
   renderSend(){
     return(
-      <View style={styles.container}>
+      <View >
         <View style={{ paddingVertical: 120 }}>
           <Text> {this.state.error} </Text>
               <FormLabel>To:</FormLabel>
@@ -200,17 +200,17 @@ export default class EthereumScreen extends React.Component {
                 onPress={() => { this.sendEthTransaction() }}
               />
               <Button
-              buttonStyle={{ marginTop: 20, borderRadius: 30 }}
-              backgroundColor="transparent"
-              textStyle={{ color: "#03A9F4" }}
-              title="Scan QR code"
-              onPress={() => { this.setState({ estature: 'QR' }) }}
+                buttonStyle={{ marginTop: 20, borderRadius: 30 }}
+                backgroundColor="transparent"
+                textStyle={{ color: "#03A9F4" }}
+                title="Scan QR code"
+                onPress={() => { this.setState({ estature: 'QR' }) }}
               />
               <Button
-              backgroundColor="transparent"
-              textStyle={{ color: "#00002D" }}
-              title="Back"
-              onPress={() => { this.setState({ estature: 'TX FORM' }) }}
+                backgroundColor="transparent"
+                textStyle={{ color: "#00002D" }}
+                title="Back"
+                onPress={() => { this.setState({ estature: 'TX FORM' }) }}
               />
         </View>
       </View>
@@ -233,18 +233,28 @@ export default class EthereumScreen extends React.Component {
         <Qrcode address={this.state.mainEthAddress} />
         <Text></Text>
         <Text></Text>
-          <Button
-          backgroundColor="transparent"
-          textStyle={{ color: "#00002D" }}
-          title="Back"
-          onPress={() => { this.setState({ estature: 'TX FORM' }) }}
-          />
+        <View style={{ bottom: 100}}>
+        <Text style={styles.value}> {this.state.mainEthAddress}</Text>
+        <Text style={styles.crypto}>Your ETH Address</Text>
+        <Text></Text>
+        <Text></Text>
+        <Button
+        backgroundColor="transparent"
+        textStyle={{ color: "#00002D" }}
+        title="Back"
+        onPress={() => { this.setState({ estature: 'TX FORM' }) }}
+        />
+        </View>
       </View>
     )
   }
 
   renderSuccess(){
     <View style={styles.container}>
+      <Image
+          source={require('../resources/check.png')}
+          style={{ width: 50, height: 50 }}
+        />
       <Text>Your Transaction has been Sent</Text>
       <Text></Text>
         <Button

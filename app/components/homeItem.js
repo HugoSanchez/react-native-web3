@@ -12,7 +12,7 @@ class HomeRow extends Component {
   };
 
   render() {
-    const { amount, name, category } = this.props;
+    const { amount, category, onTrack } = this.props;
 
     const rowStyles = [
       styles.row,
@@ -21,10 +21,15 @@ class HomeRow extends Component {
     return (
       <TouchableOpacity onPress={this.onRemove}>
         <View style={rowStyles}>
+        <Image
+            style={styles.image}
+            source={require('../resources/background.jpeg')}/>
           <View>
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.amount}>{amount}</Text>
-            <Text style={styles.email}>{category}</Text>
+          <View style={rowStyles}>
+            <Text style={styles.name}>{category}</Text>
+            <Text style={styles.amount}> $ {amount}</Text>
+          </View>
+          <Text style={styles.category}>{onTrack ? "On track" : "Overspent" }</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -53,7 +58,12 @@ const styles = StyleSheet.create({
   },
   amount: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '200',
+    marginLeft: 0,
+  },
+  category: {
+    fontSize: 12,
+    fontWeight: '200',
     marginLeft: 0,
   },
   email: {

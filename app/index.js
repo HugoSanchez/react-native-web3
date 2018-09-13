@@ -29,7 +29,7 @@ export default class App extends React.Component {
       total_balance: null,
       accounts: [],
       transactions: [],
-      username: ''
+      username: 'Hello'
     };
   }
 
@@ -61,7 +61,6 @@ export default class App extends React.Component {
       setAccountsBalance: this.setAccountsBalance,
       isSignedInToPlaid: this.state.isSignedInToPlaid,
       setMainState: this.setMainState,
-      dummyFunction: this.dummyFunction
     }
 
 
@@ -120,10 +119,6 @@ export default class App extends React.Component {
       total_balance: res.total_balance,
       accounts: res.accounts
     })
-  }
-
-  dummyFunction = () => {
-    console.log('DUMMY')
   }
 
 
