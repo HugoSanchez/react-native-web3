@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Animated, TouchableOpacity } from 'react-native';
 
-const ROW_HEIGHT = 70;
+const ROW_HEIGHT = 50;
 
 class HomeRow extends Component {
   onRemove = () => {
@@ -19,20 +19,16 @@ class HomeRow extends Component {
     ];
 
     return (
-      <TouchableOpacity onPress={this.onRemove}>
-        <View style={rowStyles}>
-        <Image
-            style={styles.image}
-            source={require('../resources/background.jpeg')}/>
-          <View>
+      <View style={{bottom: 70}}>
+        <TouchableOpacity onPress={this.onRemove}>
           <View style={rowStyles}>
-            <Text style={styles.name}>{category}</Text>
-            <Text style={styles.amount}> $ {amount}</Text>
+            <View style={rowStyles}>
+              <Text style={styles.name}>{category}</Text>
+              <Text style={styles.amount}> $ {amount}</Text>
+              </View>
           </View>
-          <Text style={styles.category}>{onTrack ? "On track" : "Overspent" }</Text>
-          </View>
-        </View>
       </TouchableOpacity>
+    </View>
     );
   }
 }
@@ -46,11 +42,19 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     margin: 5,
   },
+  col: {
+    flexDirection: 'column',
+    paddingHorizontal: 15,
+    alignItems: 'center',
+    height: ROW_HEIGHT,
+    borderWidth: 0,
+    margin: 5,
+  },
   image: {
     width: 30,
     height: 30,
     borderRadius: 15,
-    marginRight: 10,
+    marginLeft: 0,
   },
   name: {
     fontSize: 14,

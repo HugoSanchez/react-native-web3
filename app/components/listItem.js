@@ -22,7 +22,12 @@ class ListRow extends Component {
       <TouchableOpacity onPress={this.onRemove}>
         <View style={rowStyles}>
         <Image
-            style={styles.image}
+            style={{
+              width: 30,
+              height: 30,
+              borderRadius: 15,
+              marginRight: 10,
+            }}
             source={require('../resources/background.jpeg')}
           />
           <View>

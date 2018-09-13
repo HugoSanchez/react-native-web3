@@ -52,8 +52,13 @@ export default class Home extends React.Component {
     return(
       <View style={styles.container}>
       <Image
-          source={require('../resources/bird.png')}
-          style={{ width: 120, height: 120, top: 100 }}
+          style={{
+            width: 30,
+            height: 30,
+            borderRadius: 15,
+            marginRight: 10,
+          }}
+          source={require('../resources/background.jpeg')}
         />
         <View style={styles.container, styles.boxOne}>
           <Text style={styles.value}> Total Savings </Text>
@@ -63,19 +68,10 @@ export default class Home extends React.Component {
           <Text style={styles.paragraph}> $ {this.state.BTCbalance} <Text style={styles.crypto}>BTC</Text></Text>
           <Text style={styles.paragraph}> $ {this.parseAmounts(this.state.ETHbalance)} <Text style={styles.crypto}>ETH</Text></Text>
         </View>
-        <HomeRow category={"Monthly Expenses"} amount={this.state.totalMonthlyExpenditure} onTrack={true} />
-        <View style={styles.container, styles.boxFour}>
-          <Text style={styles.paragraph}> $ {this.state.totalMonthlyIncome} </Text>
-          <Text style={styles.value2}>Monthly Income </Text>
-        </View>
-        <View style={styles.container, styles.boxFive}>
-          <Text style={styles.paragraph}> $ {this.parseAmounts(this.state.FoodAndDrinksExpenses)} </Text>
-          <Text style={styles.value2}> Food and Drinks </Text>
-        </View>
-        <View style={styles.container, styles.boxSix}>
-          <Text style={styles.paragraph}> $ {this.parseAmounts(this.state.travelAndTransportExpenses)} </Text>
-          <Text style={styles.value2}> Travel </Text>
-        </View>
+          <HomeRow category={"Monthly Expenses"} amount={this.state.totalMonthlyExpenditure} onTrack={true} />
+          <HomeRow category={"Monthly Income"} amount={this.state.totalMonthlyIncome} onTrack={true} />
+          <HomeRow category={"Food & Drinks"} amount={this.parseAmounts(this.state.FoodAndDrinksExpenses)} onTrack={true} />
+          <HomeRow category={"Travel"} amount={this.parseAmounts(this.state.travelAndTransportExpenses)} onTrack={true} />
       </View>
     )
   }
