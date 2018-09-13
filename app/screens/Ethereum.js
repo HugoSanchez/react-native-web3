@@ -4,7 +4,7 @@ import { View, Text, Image, AsyncStorage, YellowBox } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
 const Web3 = require('web3');
 const BN = require('bn.js');
-const EthereumTx = require('ethereumjs-tx');
+const Tx = require('ethereumjs-tx');
 const EthCrypto = require('eth-crypto')
 
 //Files
@@ -28,7 +28,7 @@ export default class EthereumScreen extends React.Component {
     sendToAddress: '0xcc74308838bbaceec226611a0c2b3fd5f4a7d8a2',
     amount: 0,
     gasPrice: {},
-    nonce: 0,
+    nonce: null,
     error: '',
   }
 
@@ -50,10 +50,6 @@ export default class EthereumScreen extends React.Component {
         }
       })
     })
-    // web3.eth.getTransactionCount(this.state.mainEthAddress)
-    //   .then(res => {
-    //     this.setState({ nonce: res - 1 })
-    //   })
   }
 
   render(){
@@ -75,6 +71,8 @@ export default class EthereumScreen extends React.Component {
         return this.renderSend();
       case 'QR':
         return this.renderQR();
+      case 'SUCCESS':
+        return this.renderSuccess();
       default:
         return this.renderWelcome();
     }
@@ -245,6 +243,19 @@ export default class EthereumScreen extends React.Component {
     )
   }
 
+  renderSuccess(){
+    <View style={styles.container}>
+      <Text>Your Transaction has been Sent</Text>
+      <Text></Text>
+        <Button
+        backgroundColor="transparent"
+        textStyle={{ color: "#00002D" }}
+        title="Awesome, thanks!"
+        onPress={() => { this.setState({ estature: 'TX FORM' }) }}
+        />
+    </View>
+  }
+
   //Helper Methods
   getNone = async (address) => {
     web3.eth.getTransactionCount(web3.eth.defaultAccount)
@@ -255,27 +266,45 @@ export default class EthereumScreen extends React.Component {
 
   sendEthTransaction = () => {
     const amountToSend = '0.0100000'
-    var details = {}
     web3.eth.defaultAccount = this.state.mainEthAddress
-    var nonce = await getNone(web3.eth.defaultAccount)
+    console.log(web3.eth.defaultAccount)
     console.log(typeof this.state.sendToAddress)
     console.log(amountToSend)
 
-    // web3.eth.getTransactionCount(web3.eth.defaultAccount)
-    //   .then(res => {
-    //     nonce = res
-    //     console.log(web3.utils.toHex(nonce))
-    //   })
-    // details = {
-    //     "to": web3.utils.toHex(this.state.sendToAddress),
-    //     "value": web3.utils.toHex( web3.utils.toWei(amountToSend, 'ether') ),
-    //     "gasLimit": web3.utils.toHex(21000),
-    //     "gasPrice": web3.utils.toHex(this.state.gasPrice.low * 1000000000), // converts the gwei price to wei
-    //     "nonce": web3.eth.getTransactionCount(web3.eth.defaultAccount),
-    //     "chainId": web3.utils.toHex(1) // EIP 155 chainId - mainnet: 1, rinkeby: 4
-    //   }
-    const transaction = new EthereumTx(details)
+    web3.eth.getTransactionCount(web3.eth.defaultAccount)
+      .then(res => {
+        nonce = res
+        console.log(web3.utils.toHex(nonce))
+        return res
+      }).then(nonce => {
+        details = {
+            "to": web3.utils.toHex(this.state.sendToAddress),
+            "value": web3.utils.toHex( web3.utils.toWei(amountToSend, 'ether') ),
+            "gasLimit": web3.utils.toHex(21000),
+            "gasPrice": web3.utils.toHex(this.state.gasPrice.low * 1000000000), // converts the gwei price to wei
+            "nonce": web3.utils.toHex(nonce),
+            "chainId": 1 // EIP 155 chainId - mainnet: 1, rinkeby: 4
+          }
+        var tx = new Tx(details)
+        console.log('TX:', tx)
+        this.getEthPriv().then(Key => {
+          console.log('KEY: ', Key.substring(2))
+          var privateKey = new Buffer(Key.substring(2), 'hex')
+          tx.sign(privateKey);
+          var serializedTx = tx.serialize()
+          console.log('Serialized TX: ', serializedTx.toString('hex'))
+          web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex') )
+          .on('transactionHash', this.transactionSent())
+          .on('receipt', console.log)
+          .on('confirmation', console.log)
+        })
+      })
     // console.log(transaction)
+  }
+
+  // Helper Methods
+  transactionSent = () => {
+    this.setState({ estature: "SUCCESS" })
   }
 
   getEthAddress = () => {
@@ -285,8 +314,8 @@ export default class EthereumScreen extends React.Component {
   }
 
   getEthPriv = () => {
-    return AsyncStorage.getItem('eth_address').then(res => {
-      console.log(res)
+    return AsyncStorage.getItem('eth_priv').then(res => {
+      return res
     })
   }
 
