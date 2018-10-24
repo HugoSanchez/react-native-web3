@@ -250,6 +250,7 @@ export default class EthereumScreen extends React.Component {
   }
 
   renderSuccess(){
+    return(
     <View style={styles.container}>
       <Image
           source={require('../resources/check.png')}
@@ -264,6 +265,7 @@ export default class EthereumScreen extends React.Component {
         onPress={() => { this.setState({ estature: 'TX FORM' }) }}
         />
     </View>
+    )
   }
 
   //Helper Methods
@@ -291,7 +293,7 @@ export default class EthereumScreen extends React.Component {
             "to": web3.utils.toHex(this.state.sendToAddress),
             "value": web3.utils.toHex( web3.utils.toWei(amountToSend, 'ether') ),
             "gasLimit": web3.utils.toHex(21000),
-            "gasPrice": web3.utils.toHex(this.state.gasPrice.low * 1000000000), // converts the gwei price to wei
+            "gasPrice": web3.utils.toHex(this.state.gasPrice.high * 1000000000), // converts the gwei price to wei
             "nonce": web3.utils.toHex(nonce),
             "chainId": 1 // EIP 155 chainId - mainnet: 1, rinkeby: 4
           }
@@ -361,11 +363,12 @@ export default class EthereumScreen extends React.Component {
   }
 
   fetchAndSaveNewEthId = () => {
+    console.log('HIT')
     getNewEthId().then(res => {
       if (res.success) {
-        AsyncStorage.setItem('eth_address', res.success.address)
-        .then(() => AsyncStorage.setItem('eth_priv', res.success.privateKey)
-        .then(this.setState({ estature: 'GET' })))
+        AsyncStorage.setItem('eth_address', '0xd3b781ee972128c2A2B7858A8984F440375Fb595')
+        .then(() => AsyncStorage.setItem('eth_priv', '0xf4fba90eb2fbdc0e034ab033ce57ab6869061fe7edc04a1ab0179ac60acdae7d')
+        .then(this.setState({ estature: 'TX HOME' })))
       } else {
         this.setState({ error: "Error ocurred generating your new keys"})
       }
